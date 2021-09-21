@@ -41,7 +41,7 @@ import sys
 
 def get_freq(filename):
   """
-  Gets a file, opens it, splits on white space 
+  Gets a file as parameter, opens it, splits on white space 
   and fills a dict using the lower case words as keys
   and the number of occurences as values
 
@@ -61,15 +61,22 @@ def get_freq(filename):
   return d
 
 
-def display_freq(d, sorted=1, reversed=False, number=0):
+def display_freq(d, sorted_by=1, reversed=False, number=0):
   """
   Displays the content of a dict on two columns as follow:
-    word frequency
-  parameters can be passed
+    word1 frequency1
+    word2 frequency2
 
   Parameters
-    sorted: if set to true result will be sorted by frequency (descending order)
-    number: the number of occurences to display (0 far all, if number > to dict lenght defaluts to len(dict))
+    sorted_by: {0, 1} 
+      if set to 0 result will be sorted by word in alphabetic order, 
+      if set to 1 it is sorted by frequency
+    reversed: {True, False}
+      if set to True it will display items in reverse order (alphabetically or descending order)
+    number: 
+      sets the number of occurences to display (0 far all)
+      if number is set to value superior to dict lenght defaults to len(dict))
+  
   """
   if number > len(d) or number == 0:
     n = len(d)
@@ -78,7 +85,7 @@ def display_freq(d, sorted=1, reversed=False, number=0):
   i=0
   l = list()
   for w,f in d.items(): l.append((w, f))
-  l.sort(key=lambda x: x[sorted], reverse=reversed)
+  l.sort(key=lambda x: x[sorted_by], reverse=reversed)
   for w,f in l: 
     if i < n:
       print(w + " " + str(f))
@@ -88,12 +95,14 @@ def display_freq(d, sorted=1, reversed=False, number=0):
 
 def print_words(filename):
   d=get_freq(filename)
-  display_freq(d, sorted=0, number=0, reversed=False)
+  # display all words, sorted by alphabetic order, 
+  display_freq(d, sorted_by=0, reversed=False, number=0)
 
 
 def print_top(filename):
   d=get_freq(filename)
-  display_freq(d, sorted=1, number=20, reversed=True)
+  # display 20 words, sorted descending order by frequency
+  display_freq(d, sorted_by=1, reversed=True, number=20)
 
 
 # Define print_words(filename) and print_top(filename) functions.
