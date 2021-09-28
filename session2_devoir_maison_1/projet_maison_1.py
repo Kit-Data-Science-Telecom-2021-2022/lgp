@@ -23,12 +23,14 @@ def haversine_np(lat1, lon1, lat2, lon2):
 # fonction recherche de ville
 def ville(geo, lat, lon):
     s =haversine_np(geo['Latitude'], geo['Longitude'], lat, lon)
-    # print(lat, lon)
-    # print(geo.iloc[s.idxmin()]['Latitude'], geo.iloc[s.idxmin()]['Longitude'])
-    # print(s.sort_values())
+
     print("\n-----------------------------------------------------------------")
-    print(f'La plus proche commune est {geo.iloc[s.idxmin()]["Commune"].title()} ({geo.iloc[s.idxmin()]["Code Postal"]}) située à une distance de {s.min():.3f} km')
+    print(f'La plus proche commune est {geo.loc[s.idxmin()]["Commune"].title()} ({geo.loc[s.idxmin()]["Code Postal"]}) située à une distance de {s.min():.3f} km')
     print("-----------------------------------------------------------------\n")
+
+# conversion degrés, minutes, secondes => décimal
+def dms2dec(deg, mn, sec):
+    return deg + mn / 60 + sec / 3600
 
 def random_coordinates():
     # on applique la fonction à une coordonnée tirée au hasard
@@ -62,7 +64,8 @@ def main():
     
     ville(geo, lat, lon)
 
-    
+    # à partir de coordonnées GPS précises
+    ville(geo, dms2dec(48, 42, 52), dms2dec(2, 14, 45))
 
     
 
